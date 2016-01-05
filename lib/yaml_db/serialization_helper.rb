@@ -161,7 +161,7 @@ module YamlDb
       end
 
       def self.tables
-        ActiveRecord::Base.connection.tables.reject { |table| ['schema_info', 'schema_migrations'].include?(table) }
+        ActiveRecord::Base.connection.tables.reject { |table| ['schema_info', 'schema_migrations', 'log'].include?(table) }
       end
 
       def self.dump_table(io, table)
@@ -176,7 +176,7 @@ module YamlDb
       end
 
 
-      def self.each_table_page(table, records_per_page=1000)
+      def self.each_table_page(table, records_per_page=500)
         total_count = table_record_count(table)
         pages = (total_count.to_f / records_per_page).ceil - 1
         id = table_column_names(table).first
